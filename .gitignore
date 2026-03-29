@@ -1,0 +1,127 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+*.sublime-project
+*.sublime-workspace
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# Data and Models
+data/
+dataset/
+*.h5
+*.pkl
+*.pickle
+*.pt
+*.pth
+*.ckpt
+*.pth.tar
+weights/
+checkpoints/
+models/
+*.bin
+
+# Logs and Results
+logs/
+*.log
+result/
+results/
+output/
+outputs/
+prediction.csv
+*.zip
+wandb/
+
+# Training artifacts
+training_tasks/*/5_task_logs/
+training_tasks/*/logs/
+*.json
+runs/
+lightning_logs/
+
+# OS files
+.DS_Store
+.AppleDouble
+.LSOverride
+*.swp
+*.swo
+*~
+.directory
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Git
+.git/
+.gitmodules
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+*.orig
+
+# Pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Large files
+*.tar
+*.tar.gz
+*.zip
+*.rar
+*.7z
+
+# Keep these directories but ignore their contents (except README)
+!hw1/data/.gitkeep
+!hw1/weights/.gitkeep
+!hw1/result/.gitkeep
