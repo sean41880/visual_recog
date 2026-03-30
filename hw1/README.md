@@ -1,105 +1,89 @@
-# Image Classification Project
+# 100-Class Image Classification with ResNet Ensemble
 
-This is a similar project structure to the reference project, designed for image classification tasks using deep learning.
+This project implements a high-performance image classification pipeline for a 100-category dataset. By combining modern regularization techniques and a multi-scale ensemble inference strategy, the model achieves a top-tier accuracy of **0.95** on the test leaderboard.
 
-## Installation
+---
 
-It is recommended to run this code in an isolated Python environment via conda/mamba.
+## 1. Introduction
 
-```sh
-conda env create -f environment.yml
-conda activate hw1_env
+The core of this method is built on a modified ResNet architecture. Key features include:
+
+* **Custom Classification Head**
+  Replaces the vanilla linear layer with a Bottleneck MLP (Linear → BN → ReLU → Dropout) to prevent overfitting on the 100-class subset.
+
+* **Advanced Regularization**
+  Integration of:
+
+  * MixUp (α = 0.4)
+  * CutMix (α = 1.0)
+  * Label Smoothing (0.1)
+
+* **Inference Strategy**
+  A robust ensemble of ResNet-50 and ResNet-101 using Multi-scale Test-Time Augmentation (TTA).
+
+---
+
+## 2. Environment Setup
+
+The code is developed and tested on the **TWCC (Taiwan Computing Cloud)** environment.
+
+### Prerequisites
+
+* OS: Linux (Ubuntu)
+* Python: 3.13+
+* GPU: NVIDIA A100 / V100 / H100 (CUDA 12.x recommended)
+
+### Installation
+
+```bash
+conda create -n vision_hw1 python=3.13 -y
+conda activate vision_hw1
+
+pip install torch torchvision torchaudio
+pip install pandas Pillow tqdm
 ```
 
-## Repository Structure
+---
 
-Before running the project, create the required directories:
+## 3. Usage
 
-```sh
-mkdir result
-mkdir weights
+### Data Preparation
+
+Ensure the dataset is organized as follows:
+
+```plaintext
+data/
+├── train/
+│   ├── 0/
+│   ├── 1/
+│   └── ... (up to 99)
+└── test/
+    ├── image_1.jpg
+    └── ...
 ```
 
-The data should be downloaded by the user and extracted:
+### Training
 
-```sh
-# Download your data and extract it
-tar xvf your-data.tar.gz
+To train the ResNet-50 model with default hyperparameters:
+
+```bash
+python train.py --model resnet50 --lr 0.0001 --batch_size 64
 ```
 
-Project structure:
+### Inference (Final Submission)
 
-```sh
-.
-├── data
-│   ├── test
-│   ├── train
-│   └── val
-├── result
-├── weights
-├── src
-│   ├── dataset
-│   │   ├── dataset.py
-│   │   └── transform.py
-│   ├── models
-│   │   └── pretrain.py
-│   ├── train
-│   │   ├── train.py
-│   │   └── utils.py
-│   ├── utils
-│   │   ├── logger.py
-│   │   ├── parser.py
-│   │   └── utils.py
-│   ├── main.py
-│   └── predict.py
-├── environment.yml
-└── README.md
+To generate `prediction.csv` using the **0.95 Ensemble + TTA strategy**:
+
+```bash
+python super_test_v2.py
 ```
 
-## Usage
+---
 
-To train the model:
+## 4. Performance Snapshot
 
-```sh
-cd src
-python main.py --model resnet18 --batch_size 64 --epochs 100 --lr 1e-5
-```
-
-### Command Line Arguments
-
-- `--seed`: Random seed (default: 42)
-- `--batch_size`: Batch size for training (default: 64)
-- `--lr`: Learning rate (default: 1e-5)
-- `--device`: Device to use, 'cpu' or 'cuda' (default: 'cpu')
-- `--patient`: Patience for early stopping (default: 20)
-- `--epochs`: Number of training epochs (default: 100)
-- `--loss_function`: Loss function to use, 'CrossEntropy' or 'Focal' (default: 'CrossEntropy')
-- `--optimizer`: Optimizer to use, 'Adam', 'AdamW', 'SGD', or 'Adafactor' (default: 'Adam')
-- `--model`: Model architecture to use (default: 'resnet18')
-- `--transform`: Data augmentation strategy, '', 'autoAug', 'customAug', or 'advanceAug' (default: '')
-- `--pretrain_model_weight`: Pretrained model weights, 'DEFAULT' or None (default: 'DEFAULT')
-- `--freeze_layer`: Layer freeze strategy, None, 'conv', or 'half' (default: None)
-- `--enable_wandb`: Enable Weights & Biases logging (default: False)
-
-### Supported Models
-
-- resnet18
-- resnet34
-- resnet50
-- resnet101
-- resnet152
-- resnext50_32x4d
-- resnext101_32x8d
-- resnext101_64x4d
-
-## Project Details
-
-This project is designed for multiclass image classification using deep learning. It leverages pretrained models from PyTorch and applies various augmentation strategies and training techniques.
-
-Key Features:
-- Flexible model selection (ResNet variants, ResNeXt variants)
-- Multiple data augmentation strategies (AutoAugment, Custom, Advanced)
-- Support for different loss functions (CrossEntropy, Focal Loss)
-- Layer freezing for transfer learning
-- Early stopping and model checkpointing
-- Weights & Biases integration for experiment tracking
+| Backbone(s)     | Strategy               | Val Acc | Test Acc |
+| --------------- | ---------------------- | ------- | -------- |
+| ResNet-50       | Baseline               | 84.2%   | -        |
+| ResNet-50       | Custom Head + Aug      | 91.0%   | 0.94     |
+| ResNet-50 + 101 | Ensemble + 3-Scale TTA | -       | **0.95** |
