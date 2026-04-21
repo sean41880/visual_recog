@@ -39,3 +39,6 @@ Thumbs.db
 *.tmp
 *.bak
 *.swp
+*.tar.gz
+
+mmdetection/
