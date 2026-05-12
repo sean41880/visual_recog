@@ -1,0 +1,30 @@
+# Ignore Python cache and compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore checkpoints and model weights
+checkpoints/
+checkpoints_B/
+*.pth
+
+# Ignore log files
+*.log
+
+# Ignore test results and intermediate files
+test-results.json
+
+# Ignore sample code outputs
+sample_code/example_submmision.zip
+
+# Ignore OS and editor files
+.DS_Store
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Ignore large data
+train/
+test_release/
