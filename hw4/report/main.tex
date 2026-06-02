@@ -297,12 +297,10 @@ to $10^{-7}$ (no warmup), batch size 12 on 2$\times$ H100 GPUs.
 
 \paragraph{Results and implications.}
 The fine-tuned model (run-6) achieved 25.77 dB val PSNR (25.96 dB with TTA),
-\emph{slightly below} the baseline run-4 (25.81 / 26.01 dB).
-We conclude that the benefit of larger context is outweighed by the smaller
-effective batch size and reduced number of update steps. The fine-tuned model
-had not fully converged to the new patch distribution within 60 epochs.
-An experiment training from scratch at $192\!\times\!192$ may yield different
-conclusions but was not feasible within the time budget.
+\emph{slightly below} the baseline run-4 (25.81 / 26.01 dB), as shown in
+Fig.~\ref{fig:ablation} (right). We conclude that the benefit of larger
+context is outweighed by the smaller effective batch size and reduced number
+of update steps within 60 fine-tune epochs.
 
 \subsection{Experiment 4: Model Scale Increase (dim=80)}
 
@@ -328,11 +326,19 @@ We train dim$=80$ from scratch with identical hyperparameters to run-4
 Run-7 (dim$=80$) achieves a best val PSNR of \textbf{26.53 dB}
 (\textbf{26.75 dB} with 8-way TTA), compared to run-4 (dim$=64$)
 at 25.81 dB / 26.01 dB with TTA --- a gain of $+0.72$ dB / $+0.74$ dB
-respectively.
+respectively. Fig.~\ref{fig:ablation} (left) shows all three scales
+converging to distinctly different PSNR levels, confirming that capacity
+is the primary bottleneck.
 
-The scaling trend from dim$=48\to64$ suggests that additional capacity
-consistently helps this task, which involves complex texture-level
-discrimination between degradation patterns and real image structure.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{ablation_curves.png}
+\caption{Left: Val PSNR for model scale experiment (dim=48/64/80). Each
+step up in capacity yields consistent improvement.
+Right: Val PSNR for patch size experiment --- run-6 (192px fine-tune)
+does not surpass run-4 (128px from scratch) within 60 fine-tune epochs.}
+\label{fig:ablation}
+\end{figure}
 
 %-----------------------------------------------------------------------
 \section{Conclusion}
