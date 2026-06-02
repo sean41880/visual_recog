@@ -36,9 +36,9 @@ modifications: (1) Squeeze-and-Excitation (SE) channel attention inside the
 Gated Depth-wise Feed-forward Network (GDFN), and (2) a frequency-domain
 auxiliary loss combining FFT magnitude L1 and SSIM terms. Our best model
 (dim$=80$, 200 epochs, 8-way test-time augmentation) achieves
-\textbf{26.75 dB} PSNR on the validation set. Model scaling from dim$=64$
-to dim$=80$ is investigated as an additional experiment, yielding
-a $+0.74$ dB improvement.
+\textbf{26.75 dB} PSNR on the validation set and \textbf{27.59 dB} on the
+CodaBench test set. Model scaling from dim$=64$ to dim$=80$ is investigated
+as an additional experiment, yielding a $+0.74$ dB improvement.
 \end{abstract}
 
 %-----------------------------------------------------------------------
@@ -199,18 +199,18 @@ Hardware & 4$\times$ NVIDIA H100 80GB \\
 
 \begin{table}[h]
 \centering
-\caption{Validation PSNR across runs. TTA: 8-way test-time augmentation
-(all combinations of H-flip, V-flip, rot90).}
+\caption{PSNR across runs. TTA: 8-way test-time augmentation
+(all combinations of H-flip, V-flip, rot90). Test PSNR from CodaBench.}
 \label{tab:results}
-\begin{tabular}{llllrr}
+\begin{tabular}{lllllrr}
 \toprule
-Run & dim & Patch & Epochs & Val PSNR & Val PSNR (TTA) \\
+Run & dim & Patch & Epochs & Val PSNR & Val PSNR (TTA) & Test PSNR \\
 \midrule
-run-1 & 48 & 128 & 150 & 24.75 dB & 24.93 dB \\
-run-2 & 48 & 192 & +100 ft & 24.66 dB & 24.83 dB \\
-run-4 & 64 & 128 & 200 & 25.81 dB & 26.01 dB \\
-run-6 & 64 & 192 & +60 ft & 25.77 dB & 25.96 dB \\
-run-7 & 80 & 128 & 200 & 26.53 dB & \textbf{26.75 dB} \\
+run-1 & 48 & 128 & 150 & 24.75 dB & 24.93 dB & --- \\
+run-2 & 48 & 192 & +100 ft & 24.66 dB & 24.83 dB & --- \\
+run-4 & 64 & 128 & 200 & 25.81 dB & 26.01 dB & --- \\
+run-6 & 64 & 192 & +60 ft & 25.77 dB & 25.96 dB & --- \\
+run-7 & 80 & 128 & 200 & 26.53 dB & \textbf{26.75 dB} & \textbf{27.59 dB} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -348,8 +348,8 @@ for joint rain and snow removal. Two architectural modifications ---
 SE channel attention in GDFN and frequency-domain auxiliary loss --- each
 contribute to improved performance by addressing complementary aspects
 of the restoration problem: channel-wise feature selection and
-frequency-targeted artifact suppression. Our best submission achieves
-\textbf{26.75 dB} PSNR with 8-way TTA (dim$=80$, run-7), a $+0.74$ dB
+frequency-targeted artifact suppression. Our best submission achieves \textbf{27.59 dB} PSNR on the CodaBench test
+set (26.75 dB on validation) with 8-way TTA (dim$=80$, run-7), a $+0.74$ dB
 improvement over the dim$=64$ baseline. Model scaling experiments confirm
 that capacity is the primary limiting factor at this scale.
 
