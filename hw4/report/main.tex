@@ -35,9 +35,10 @@ without any explicit degradation type input. We introduce two architectural
 modifications: (1) Squeeze-and-Excitation (SE) channel attention inside the
 Gated Depth-wise Feed-forward Network (GDFN), and (2) a frequency-domain
 auxiliary loss combining FFT magnitude L1 and SSIM terms. Our best model
-(dim$=64$, 200 epochs, 8-way test-time augmentation) achieves
-\textbf{26.01 dB} PSNR on the validation set. Further scaling the model
-to dim$=80$ is investigated as an additional experiment.
+(dim$=80$, 200 epochs, 8-way test-time augmentation) achieves
+\textbf{26.75 dB} PSNR on the validation set. Model scaling from dim$=64$
+to dim$=80$ is investigated as an additional experiment, yielding
+a $+0.74$ dB improvement.
 \end{abstract}
 
 %-----------------------------------------------------------------------
@@ -207,8 +208,9 @@ Run & dim & Patch & Epochs & Val PSNR & Val PSNR (TTA) \\
 \midrule
 run-1 & 48 & 128 & 150 & 24.75 dB & 24.93 dB \\
 run-2 & 48 & 192 & +100 ft & 24.66 dB & 24.83 dB \\
-run-4 & 64 & 128 & 200 & 25.81 dB & \textbf{26.01 dB} \\
+run-4 & 64 & 128 & 200 & 25.81 dB & 26.01 dB \\
 run-6 & 64 & 192 & +60 ft & 25.77 dB & 25.96 dB \\
+run-7 & 80 & 128 & 200 & 26.53 dB & \textbf{26.75 dB} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -223,14 +225,11 @@ run-6 & 64 & 192 & +60 ft & 25.77 dB & 25.96 dB \\
 % -----------------------------------------------------------------
 \begin{figure}[h]
 \centering
-\fbox{\parbox{0.8\textwidth}{\centering\vspace{2cm}
-\textbf{[INSERT TRAINING CURVE HERE]}\\
-Plot: epoch vs.\ val PSNR for run-4 (dim=64, 200 epochs).\\
-Data: \texttt{checkpoints/run4/train\_log.csv}
-\vspace{2cm}}}
-\caption{Validation PSNR over 200 training epochs for the best model
-(dim$=64$, $128\!\times\!128$ patches). The curve shows steady improvement
-with cosine LR decay reaching a plateau around epoch~150.}
+\includegraphics[width=0.95\textwidth]{training_curve.png}
+\caption{Left: Validation PSNR over 200 epochs for run-4 (dim$=64$) and
+run-7 (dim$=80$). Right: Training loss. The larger model converges to a
+lower loss and higher PSNR, confirming that capacity is the binding
+constraint at this scale.}
 \label{fig:training_curve}
 \end{figure}
 
@@ -332,9 +331,10 @@ We train dim$=80$ from scratch with identical hyperparameters to run-4
 %   tail -1 checkpoints/run7/train_log.csv
 %   and the TTA eval command below.
 % -----------------------------------------------------------------
-\textit{[Run-7 (dim$=80$) is currently training. Update this section with
-the final val PSNR and TTA PSNR once training completes.
-Expected: ${\sim}26.3$--$26.6$ dB based on observed scaling trend.]}
+Run-7 (dim$=80$) achieves a best val PSNR of \textbf{26.53 dB}
+(\textbf{26.75 dB} with 8-way TTA), compared to run-4 (dim$=64$)
+at 25.81 dB / 26.01 dB with TTA --- a gain of $+0.72$ dB / $+0.74$ dB
+respectively.
 
 The scaling trend from dim$=48\to64$ suggests that additional capacity
 consistently helps this task, which involves complex texture-level
@@ -349,9 +349,9 @@ SE channel attention in GDFN and frequency-domain auxiliary loss --- each
 contribute to improved performance by addressing complementary aspects
 of the restoration problem: channel-wise feature selection and
 frequency-targeted artifact suppression. Our best submission achieves
-26.01 dB PSNR with 8-way TTA. Model scaling experiments confirm that
-capacity remains a limiting factor, and dim$=80$ is expected to push
-performance further.
+\textbf{26.75 dB} PSNR with 8-way TTA (dim$=80$, run-7), a $+0.74$ dB
+improvement over the dim$=64$ baseline. Model scaling experiments confirm
+that capacity is the primary limiting factor at this scale.
 
 Code: \url{https://github.com/sean41880/visual_recog/tree/main/hw4}
 

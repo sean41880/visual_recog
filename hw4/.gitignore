@@ -19,3 +19,6 @@ __MACOSX/
 # Logs from auto-pipeline
 pipeline.log
 watch.log
+
+# Allow report figures
+!report/*.png
