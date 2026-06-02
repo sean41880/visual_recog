@@ -81,8 +81,7 @@ full-resolution images are processed without cropping.
 \subsection{Model Architecture}
 
 We adopt PromptIR~\cite{potlapalli2023promptir}, whose architecture is built
-on Restormer~\cite{zamir2022restormer}. The full pipeline is illustrated
-conceptually in Fig.~\ref{fig:arch}.
+on Restormer~\cite{zamir2022restormer}.
 
 \paragraph{Encoder-decoder backbone.}
 The network is a U-Net-style encoder-decoder with four resolution levels.
@@ -259,6 +258,23 @@ flip, vertical flip, and 90° rotation) consistently adds approximately
 $+0.2$ dB with no additional training cost. This free gain comes from
 reducing prediction variance introduced by the directional nature of rain
 streak artifacts.
+
+\subsection{Qualitative Results}
+
+Fig.~\ref{fig:qualitative} shows two validation examples. The top row shows
+a challenging snow scene (22.83 dB) where the model successfully removes
+heavy snow while preserving structural detail. The bottom row shows a rain
+example (30.94 dB) where fine rain streaks are cleanly removed with minimal
+artefacts.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.97\textwidth]{qualitative.png}
+\caption{Qualitative restoration results. Each row shows: degraded input
+(left), our model output (centre), and ground truth (right).
+Top: snow removal (22.83 dB). Bottom: rain removal (30.94 dB).}
+\label{fig:qualitative}
+\end{figure}
 
 %-----------------------------------------------------------------------
 \section{Additional Experiments}
