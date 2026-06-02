@@ -1,0 +1,21 @@
+# Dataset and large data files
+hw4_realse_dataset/
+*.zip
+*.npz
+
+# Model checkpoints (large)
+checkpoints/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Mac metadata
+__MACOSX/
+.DS_Store
+._*
+
+# Logs from auto-pipeline
+pipeline.log
+watch.log
